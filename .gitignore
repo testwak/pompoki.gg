@@ -1,0 +1,24 @@
+bot/
+
+# Node modules
+node_modules/
+
+# Env files
+.env
+.env.*
+frontend/.env
+frontend/.env.*
+backend/.env
+backend/.env.*
+bot/.env
+bot/.env.*
+bot/settings
+
+# Build output
+.next/
+dist/
+out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*

@@ -1,0 +1,58 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@utils/*": [
+        "utils/*"
+      ]
+    },
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "components/app-sidebar.jsx",
+    "components/chart-area-interactive.jsx",
+    "components/data-table.jsx",
+    "components/nav-documents.jsx",
+    "components/nav-main.jsx",
+    "components/nav-secondary.jsx",
+    "components/nav-user.jsx",
+    "components/section-cards.jsx",
+    "components/site-header.jsx",
+    "next-env.d.ts",
+    "pages/components/CardCollection.jsx",
+    "pages/components/NavOther.jsx",
+    "pages/components/NavMain.jsx",
+    "pages/components/NavUser.jsx",
+    "pages/components/SideBar.jsx",
+    "pages/components/SideHeader.jsx",
+    "temp-files/dashboard.js",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
