@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Pagination, PaginationItemType, cn } from "@heroui/react";
 
 export const ChevronIcon = (props) => {

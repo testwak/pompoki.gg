@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
-import EmptyScreen from './components/EmptyScreen';
+import EmptyScreen from '../components/EmptyScreen';
+import Image from "next/image"
 
 const Dashboard = () => {
     const [loading, setLoading] = useState(true)
@@ -15,24 +16,24 @@ const Dashboard = () => {
     const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
-    const fetchDbUser = async (discordId) => { 
-        try { 
-            console.log('Fetching user with ID:', discordId) // Change from localhost:3000 to localhost:8000 
-            const response = await axios.get(`${API_URL}/api/user/balance/${discordId}`) 
-            console.log('Response:', response.data) 
-            if (response.data.status === 200) { 
-                console.log('Setting dbUser:', response.data.data) 
-                setDbUser(response.data.data) 
-            } else { 
-                console.log('API returned error:', response.data.message) 
-            } 
-        } catch (err) { 
-            console.error('Database fetch error:', err) 
-            console.error('Error response:', err.response?.data) 
-        } 
-    }
-
     useEffect(() => {
+        const fetchDbUser = async (discordId) => { 
+            try { 
+                console.log('Fetching user with ID:', discordId) // Change from localhost:3000 to localhost:8000 
+                const response = await axios.get(`${API_URL}/api/user/balance/${discordId}`) 
+                console.log('Response:', response.data) 
+                if (response.data.status === 200) { 
+                    console.log('Setting dbUser:', response.data.data) 
+                    setDbUser(response.data.data) 
+                } else { 
+                    console.log('API returned error:', response.data.message) 
+                } 
+            } catch (err) { 
+                console.error('Database fetch error:', err) 
+                console.error('Error response:', err.response?.data) 
+            } 
+        }
+
         const authenticateUser = async () => {
             try {
                 // Check for token in URL first (from Discord redirect)
@@ -77,7 +78,7 @@ const Dashboard = () => {
         if (router.isReady) {
             authenticateUser()
         }
-    }, [router.isReady, router.query])
+    }, [API_URL, BACKEND_URL, router, router.isReady, router.query])
 
     if (loading) {
         return (
@@ -115,13 +116,15 @@ const Dashboard = () => {
                             <div className="bg-brand-discord-50 overflow-hidden shadow-sm rounded-lg mb-6">
                                 <div className="p-6">
                                     <div className="flex items-center">
-                                        <img 
+                                        <Image
                                             src={user.avatarURL} 
                                             alt={`${user.username}'s avatar`}
                                             className="w-16 h-16 rounded-full border-2 border-indigo-500"
                                             onError={(e) => {
                                                 e.target.src = 'https://cdn.discordapp.com/embed/avatars/0.png'
                                             }}
+                                            width={100}
+                                            height={100}
                                         />
                                         <div className="ml-6">
                                             <h2 className="text-2xl font-bold text-white">

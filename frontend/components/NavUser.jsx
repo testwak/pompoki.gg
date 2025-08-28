@@ -1,4 +1,5 @@
 "use client"
+// @ts-nocheck
 
 import {
     BadgeCheck,
@@ -74,7 +75,7 @@ export function NavUser({ user, onLogout }) {
                                     </div>
                                 </div>
                             </DropdownMenuLabel>
-                            <DropdownMenuSeparator />
+                            {/*<DropdownMenuSeparator />
                             <DropdownMenuGroup>
                                 <DropdownMenuItem>
                                     <Sparkles />
@@ -95,7 +96,7 @@ export function NavUser({ user, onLogout }) {
                                     <Bell />
                                     Notifications
                                 </DropdownMenuItem>
-                            </DropdownMenuGroup>
+                            </DropdownMenuGroup>*/}
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={onLogout} className="hover:bg-brand-discord-75">
                                 <LogOut />

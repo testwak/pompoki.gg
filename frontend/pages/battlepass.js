@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { toast } from "sonner"
+import Image from "next/image"
 
 export default function BattlePass() {
     const [loading, setLoading] = useState(true)
@@ -23,7 +24,7 @@ export default function BattlePass() {
         const parts = []
         for (const [key, value] of Object.entries(rewards)) {
             let name = key
-            let image = key
+            let image = "/"
             if (key === 'coin') {
                 name = 'coins'
                 image = 'https://cdn.discordapp.com/emojis/1243996451223244831.png'
@@ -35,35 +36,16 @@ export default function BattlePass() {
                 image = 'https://cdn.discordapp.com/emojis/1243997460875972629.png'
             } else if (key === 'box') {
                 name = 'boxes'
+                image = 'https://cdn.discordapp.com/emojis/1346361951286067230.png'
             }
             parts.push(<>
                 <div className='flex flex-col justify-center h-full items-center'>
-                <img src={image} width={95} />
+                <Image src={image} width={95} height={100} alt='currency_icon' />
                 <span className='text-2xl'><span className='font-american'>{value}</span>×</span>
                 </div>
             </>)
         }
         return parts
-    }
-
-    const calculateLevelFromXp = (totalXp) => {
-        if (totalXp <= 0) return { level: 1, currentLevelXp: 0, nextLevelXp: 100 }
-
-        let currentLevel = 1
-        let xpUsed = 0
-        const maxLevel = 100
-
-        while (currentLevel < maxLevel) {
-            const xpNeeded = getXpRequirementForLevel(currentLevel + 1)
-            if (xpUsed + xpNeeded > totalXp) break
-            xpUsed += xpNeeded
-            currentLevel++
-        }
-
-        const currentLevelXp = totalXp - xpUsed
-        const nextLevelXp = getXpRequirementForLevel(currentLevel + 1)
-
-        return { level: currentLevel, currentLevelXp, nextLevelXp }
     }
 
     const getXpRequirementForLevel = (level) => {
@@ -163,6 +145,26 @@ export default function BattlePass() {
           })
         }
       }
+    
+      const calculateLevelFromXp = (totalXp) => {
+        if (totalXp <= 0) return { level: 1, currentLevelXp: 0, nextLevelXp: 100 }
+
+        let currentLevel = 1
+        let xpUsed = 0
+        const maxLevel = 100
+
+        while (currentLevel < maxLevel) {
+            const xpNeeded = getXpRequirementForLevel(currentLevel + 1)
+            if (xpUsed + xpNeeded > totalXp) break
+            xpUsed += xpNeeded
+            currentLevel++
+        }
+
+        const currentLevelXp = totalXp - xpUsed
+        const nextLevelXp = getXpRequirementForLevel(currentLevel + 1)
+
+        return { level: currentLevel, currentLevelXp, nextLevelXp }
+    }
 
     const scrollToCurrentLevel = () => {
         if (!scrollContainerRef.current || !battlepassData) return;
@@ -181,8 +183,7 @@ export default function BattlePass() {
           left: Math.max(0, scrollPosition),
           behavior: "smooth",
         });
-      };
-      
+    };
 
     useEffect(() => {
         const authenticateUser = async () => {
@@ -222,7 +223,7 @@ export default function BattlePass() {
         if (router.isReady) {
             authenticateUser()
         }
-    }, [router.isReady, router.query])
+    }, [router, router.isReady, router.query])
 
     useEffect(() => {
         if (battlepassData) {
@@ -322,7 +323,7 @@ export default function BattlePass() {
                             Go to Current Level
                         </button>
                         <button
-                            variant='flat'
+                            
                             onClick={claimAllAvailable}
                             className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm transition-colors disabled:opacity-50"
                             disabled={claimingLevel !== null}
@@ -471,16 +472,6 @@ export default function BattlePass() {
                     <p className="mt-1">Level {actualLevel} of {Math.max(...Object.keys(rewards_config).map(Number))}</p>
                 </div>
             </div>
-
-            <style jsx>{`
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-            `}</style>
         </>
     )
 }

@@ -54,7 +54,7 @@ const Home = () => {
         if (router.isReady) {
             checkAuth()
         }
-    }, [router.isReady, router.query])
+    }, [BACKEND_URL, router, router.isReady, router.query])
 
     const handleLogin = () => {
         // Redirect to Discord OAuth

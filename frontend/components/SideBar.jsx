@@ -1,4 +1,5 @@
 "use client"
+// @ts-nocheck
 
 import * as React from "react"
 import {
@@ -44,6 +45,8 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "./ui/sidebar"
+
+import Image from "next/image"
 
 export function AppSidebar({ user, onLogout, ...props }) {
     const data = {
@@ -107,33 +110,37 @@ export function AppSidebar({ user, onLogout, ...props }) {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton
-                        icon={
-                            <span className="flex items-center justify-center w-8 h-8">
-                              <img
-                                src="pompoki-icon.gif"
-                                className="h-full w-full rounded-lg object-cover"
-                                alt="Card Collection"
-                              />
-                            </span>
-                          }
+                            icon={
+                                <span className="flex items-center justify-center w-8 h-8">
+                                <Image
+                                    src="/pompoki-icon.gif"
+                                    className="h-full w-full rounded-lg object-cover"
+                                    alt="Card Collection"
+                                    height={100}
+                                    width={100}
+                                />
+                                </span>
+                            }
                             asChild
                             className="data-[slot=sidebar-menu-button]:!p-0 flex items-center gap-2"
                         >
-                            <a href="#">
-                                <Avatar className="h-8 w-8 rounded-lg">
-                                    <AvatarImage src="./pompoki-icon.gif" alt="Logo" />
-                                    <AvatarFallback className="rounded-lg">PPM</AvatarFallback>
-                                </Avatar>
-                                <span className="text-white font-discord tracking-wide">POMPOKI Dashboard</span>
-                            </a>
+                            <Image
+                                src="/pompoki-icon.gif"
+                                className="h-8 w-8 rounded-lg object-cover"
+                                alt="Card Collection"
+                                height={100}
+                                width={100}
+                            />
+                            <span className="text-white font-discord tracking-wide">POMPOKI Dashboard</span>
+                            
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />
-                <NavOther items={data.other} />
-                <NavSecondary items={data.navSecondary} className="mt-auto" />
+                {/*<NavOther items={data.other} />*/}
+                {/*<NavSecondary items={data.navSecondary} className="mt-auto" />*/}
             </SidebarContent>
             <SidebarFooter>
                 {user !== null && <NavUser user={user} onLogout={onLogout} />}

@@ -13,24 +13,24 @@ export default function Settings() {
     const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
-    const fetchDbUser = async (discordId) => {
-        try {
-            console.log('Fetching user with ID:', discordId)
-            const response = await axios.get(`${API_URL}/api/user/settings/${discordId}`)
-            console.log('Response:', response.data)
-            if (response.data.status === 200) {
-                console.log('Setting dbUser:', response.data.data)
-                setDbUser(response.data.data)
-            } else {
-                console.log('API returned error:', response.data.message)
-            }
-        } catch (err) {
-            console.error('Database fetch error:', err)
-            console.error('Error response:', err.response?.data)
-        }
-    }
-
     useEffect(() => {
+        const fetchDbUser = async (discordId) => {
+            try {
+                console.log('Fetching user with ID:', discordId)
+                const response = await axios.get(`${API_URL}/api/user/settings/${discordId}`)
+                console.log('Response:', response.data)
+                if (response.data.status === 200) {
+                    console.log('Setting dbUser:', response.data.data)
+                    setDbUser(response.data.data)
+                } else {
+                    console.log('API returned error:', response.data.message)
+                }
+            } catch (err) {
+                console.error('Database fetch error:', err)
+                console.error('Error response:', err.response?.data)
+            }
+        }
+
         const authenticateUser = async () => {
             try {
                 // Check for token in URL first (from Discord redirect)
@@ -76,7 +76,7 @@ export default function Settings() {
         if (router.isReady) {
             authenticateUser()
         }
-    }, [router.isReady, router.query])
+    }, [API_URL, BACKEND_URL, router, router.isReady, router.query])
 
     {/* const handleSwitchChange = async (key, isSelected) => {
         try {

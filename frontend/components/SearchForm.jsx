@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Search } from "lucide-react"
 
 import { Label } from "./ui/label"

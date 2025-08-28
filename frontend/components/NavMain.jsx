@@ -1,4 +1,5 @@
 "use client"
+// @ts-nocheck
 
 import { IconCirclePlusFilled, IconMail, IconAlertSquareRounded } from "@tabler/icons-react"
 import Link from "next/link"

@@ -12,14 +12,14 @@ import {
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
-import EmptyScreen from './components/EmptyScreen';
+import EmptyScreen from '../components/EmptyScreen';
 
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import Paginator from "./components/Paginator"
-import TypographyH1 from "./components/TypographyH1";
+import Paginator from "../components/Paginator"
+import TypographyH1 from "../components/TypographyH1";
 
 import {
     renderDiscordEmojis,
@@ -36,7 +36,7 @@ import {
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-} from "./components/ui/drawer"
+} from "../components/ui/drawer"
 import { Bar, BarChart, ResponsiveContainer } from "recharts"
 
 export default function CardCollection() {
@@ -57,29 +57,29 @@ export default function CardCollection() {
         onOpen();
     };
 
-    const fetchDbUser = async (discordId) => {
-        try {
-            console.log('Fetching user with ID:', discordId)
-            const response = await axios.get(`${API_URL}/api/user/card_collection/${discordId}`)
-            console.log('Response:', response.data)
-            if (response.data.status === 200) {
-                console.log('Setting dbUser:', response.data.data)
-                setDbUser(response.data.data)
-            } else {
-                console.log('API returned error:', response.data.message)
-            }
-        } catch (err) {
-            console.error('Database fetch error:', err)
-            console.error('Error response:', err.response?.data)
-        }
-    }
-
     const [activePage, setActivePage] = useState(1);
     const startIndex = (activePage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     const currentItems = dbUser?.slice(startIndex, endIndex) || [];
 
     useEffect(() => {
+        const fetchDbUser = async (discordId) => {
+            try {
+                console.log('Fetching user with ID:', discordId)
+                const response = await axios.get(`${API_URL}/api/user/card_collection/${discordId}`)
+                console.log('Response:', response.data)
+                if (response.data.status === 200) {
+                    console.log('Setting dbUser:', response.data.data)
+                    setDbUser(response.data.data)
+                } else {
+                    console.log('API returned error:', response.data.message)
+                }
+            } catch (err) {
+                console.error('Database fetch error:', err)
+                console.error('Error response:', err.response?.data)
+            }
+        }
+
         const authenticateUser = async () => {
             try {
                 // Check for token in URL first (from Discord redirect)
@@ -124,7 +124,7 @@ export default function CardCollection() {
         if (router.isReady) {
             authenticateUser()
         }
-    }, [router.isReady, router.query])
+    }, [API_URL, BACKEND_URL, router, router.isReady, router.query])
 
     if (loading) {
         return (
@@ -193,6 +193,7 @@ export default function CardCollection() {
                                         shadow="sm"
                                         src={getValidCard(trimImageUrl(card.image))}
                                         width={400}
+                                        height="auto"
                                         fallbackSrc="/placeholder-card.png"
                                     />
                                 </CardBody>
@@ -225,6 +226,7 @@ export default function CardCollection() {
                                                             src={getValidCard(trimImageUrl(selectedCard.image))}
                                                             fallbackSrc="/placeholder-card.png"
                                                             width={200}
+                                                            height={100}
                                                         />
                                                         <p><strong>Rarity:</strong> {renderDiscordEmojis(selectedCard.rarity_icon)}</p>
                                                         <p><strong>Dupe:</strong> {selectedCard.dupe}×</p>
@@ -241,7 +243,7 @@ export default function CardCollection() {
                                 </ModalContent>
                             </Modal>
 
-                            <Drawer>
+                            {/*<Drawer>
                                 <DrawerTrigger asChild>
                                     <Button variant="outline">Open Drawer</Button>
                                 </DrawerTrigger>
@@ -294,7 +296,7 @@ export default function CardCollection() {
                                         </DrawerFooter>
                                     </div>
                                 </DrawerContent>
-                            </Drawer>
+                            </Drawer>*/}
 
                         </motion.div>
                     ))}

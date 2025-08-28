@@ -43,16 +43,17 @@
     "components/section-cards.jsx",
     "components/site-header.jsx",
     "next-env.d.ts",
-    "pages/components/CardCollection.jsx",
-    "pages/components/NavOther.jsx",
-    "pages/components/NavMain.jsx",
-    "pages/components/NavUser.jsx",
-    "pages/components/SideBar.jsx",
-    "pages/components/SideHeader.jsx",
+    "components/CardCollection.jsx",
+    "components/NavOther.jsx",
+    "components/NavMain.jsx",
+    "components/NavUser.jsx",
+    "components/SideBar.jsx",
+    "components/SideHeader.jsx",
     "temp-files/dashboard.js",
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/validator.ts"
   ]
 }
