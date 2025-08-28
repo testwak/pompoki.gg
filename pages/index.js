@@ -47,7 +47,7 @@ const Home = () => {
                 setIsAuthenticated(false)
                 window.localStorage.removeItem("__nego-auth")
             } finally {
-                setLoading(false)
+                setLoading(false) 
             }
         }
 
