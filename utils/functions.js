@@ -39,6 +39,7 @@ const trimImageUrl = (url) => {
       const endIndex = url.indexOf(match[0]) + match[0].length;
       return url.substring(0, endIndex);
     }
+    
     return url;
 }
 
