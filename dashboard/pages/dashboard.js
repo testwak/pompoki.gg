@@ -58,6 +58,7 @@ const Dashboard = () => {
                     setError(response.data.message || "Authentication failed");
                     window.localStorage.removeItem("__nego-auth");
                 }
+                
             } catch (err) {
                 setError("Failed to authenticate user");
                 console.error("Auth error:", err);
