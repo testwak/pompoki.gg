@@ -118,6 +118,7 @@ export function AppSidebar({ user, onLogout, ...props }) {
                                     alt="Card Collection"
                                     height={100}
                                     width={100}
+                                    unoptimized
                                 />
                                 </span>
                             }
@@ -130,6 +131,7 @@ export function AppSidebar({ user, onLogout, ...props }) {
                                 alt="Card Collection"
                                 height={100}
                                 width={100}
+                                unoptimized
                             />
                             <span className="text-white font-discord tracking-wide">POMPOKI Dashboard</span>
                             

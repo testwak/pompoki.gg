@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, VariantProps } from "class-variance-authority"
-import { PanelLeftIcon } from "lucide-react"
+import { Component, PanelLeftIcon } from "lucide-react"
 
 import { useIsMobile } from "@/../hooks/use-mobile"
 import { cn } from "@/../lib/utils"
@@ -612,7 +612,7 @@ function SidebarMenuSkeleton({
     }, [])
 
     return (
-        <div
+        <span
             data-slot="sidebar-menu-skeleton"
             data-sidebar="menu-skeleton"
             className={cn("flex h-8 items-center gap-2 rounded-md px-2", className)}
@@ -633,7 +633,7 @@ function SidebarMenuSkeleton({
                     } as React.CSSProperties
                 }
             />
-        </div>
+        </span>
     )
 }
 
@@ -680,7 +680,7 @@ function SidebarMenuSubButton({
     const Comp = asChild ? Slot : "a"
 
     return (
-        <a
+        <span
             data-slot="sidebar-menu-sub-button"
             data-sidebar="menu-sub-button"
             data-size={size}

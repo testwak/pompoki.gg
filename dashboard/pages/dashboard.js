@@ -7,78 +7,68 @@ import EmptyScreen from '../components/EmptyScreen';
 import Image from "next/image"
 
 const Dashboard = () => {
-    const [loading, setLoading] = useState(true)
-    const [user, setUser] = useState(null)
-    const [error, setError] = useState('')
-    const router = useRouter()
-    const [dbUser, setDbUser] = useState(null) 
+    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
+    const [dbUser, setDbUser] = useState(null);
+    const [error, setError] = useState("");
+    const router = useRouter();
 
-    const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
-
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    
     useEffect(() => {
-        const fetchDbUser = async (discordId) => { 
-            try { 
-                console.log('Fetching user with ID:', discordId) // Change from localhost:3000 to localhost:8000 
-                const response = await axios.get(`${API_URL}/api/user/balance/${discordId}`) 
-                console.log('Response:', response.data) 
-                if (response.data.status === 200) { 
-                    console.log('Setting dbUser:', response.data.data) 
-                    setDbUser(response.data.data) 
-                } else { 
-                    console.log('API returned error:', response.data.message) 
-                } 
-            } catch (err) { 
-                console.error('Database fetch error:', err) 
-                console.error('Error response:', err.response?.data) 
-            } 
-        }
+        const fetchDbUser = async (discordId) => {
+            try {
+                console.log("Fetching DB user with ID:", discordId);
+                const response = await axios.get(`${API_URL}/api/user/balance/${discordId}`);
+                console.log("DB response:", response.data);
+                if (response.data.status === 200) setDbUser(response.data.data);
+                else console.warn("API returned error:", response.data.message);
+            } catch (err) {
+                console.error("Database fetch error:", err);
+                console.error("Error response:", err.response?.data);
+            }
+        };
 
         const authenticateUser = async () => {
             try {
-                // Check for token in URL first (from Discord redirect)
-                const { token: urlToken } = router.query
-                
-                // Check for token in localStorage
-                let token = window.localStorage.getItem("__nego-auth")
-                
-                // If we have a token from URL, use it and store it
+                // Grab token from URL (after OAuth) or localStorage
+                const { token: urlToken } = router.query;
+                let token = window.localStorage.getItem("__nego-auth");
+
                 if (urlToken) {
-                    token = urlToken
-                    window.localStorage.setItem("__nego-auth", token)
-                    // Clean up URL
-                    router.replace('/dashboard', undefined, { shallow: true })
+                    token = urlToken;
+                    window.localStorage.setItem("__nego-auth", token);
+                    router.replace("/dashboard", undefined, { shallow: true });
                 }
-                
+
                 if (!token) {
-                    setError('No authentication token found')
-                    setLoading(false)
-                    return
+                    setError("No authentication token found.");
+                    setLoading(false);
+                    return;
                 }
-                
-                // Verify token with backend
-                const response = await axios.get(`${BACKEND_URL}/api/_auth/user?token=${token}`)
-                
+
+                console.log("Verifying token:", token);
+                const response = await axios.get(`/api/_auth/user?token=${token}`);
+                console.log("Token verification response:", response.data);
+
                 if (response.data.status === 200) {
-                    setUser(response.data)
-                    await fetchDbUser(response.data.id)
+                    setUser(response.data);
+                    await fetchDbUser(response.data.id);
                 } else {
-                    setError(response.data.message || 'Authentication failed')
-                    // Remove invalid token
-                    window.localStorage.removeItem("__nego-auth")
+                    setError(response.data.message || "Authentication failed");
+                    window.localStorage.removeItem("__nego-auth");
                 }
             } catch (err) {
-                setError('Failed to authenticate user')
-                console.error('Auth error:', err)
+                setError("Failed to authenticate user");
+                console.error("Auth error:", err);
+                window.localStorage.removeItem("__nego-auth");
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
-        }
+        };
 
-        if (router.isReady) {
-            authenticateUser()
-        }
-    }, [API_URL, BACKEND_URL, router, router.isReady, router.query])
+        if (router.isReady) authenticateUser();
+    }, [API_URL, router, router.isReady, router.query]);
 
     if (loading) {
         return (
@@ -117,7 +107,7 @@ const Dashboard = () => {
                                 <div className="p-6">
                                     <div className="flex items-center">
                                         <Image
-                                            src={user.avatarURL} 
+                                            src={user.avatarURL}
                                             alt={`${user.username}'s avatar`}
                                             className="w-16 h-16 rounded-full border-2 border-indigo-500"
                                             onError={(e) => {
@@ -137,7 +127,7 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                             </div>
-    
+
                             {/* User Info Cards */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 <div className="bg-brand-discord-50 overflow-hidden shadow-sm rounded-lg">
@@ -146,21 +136,21 @@ const Dashboard = () => {
                                         <p className="text-white font-mono text-sm break-all">{user.id}</p>
                                     </div>
                                 </div>
-    
+
                                 <div className="bg-brand-discord-50 overflow-hidden shadow-sm rounded-lg">
                                     <div className="p-6">
                                         <h3 className="text-lg font-medium text-white mb-2">Username</h3>
                                         <p className="text-white">{user.username}</p>
                                     </div>
                                 </div>
-    
+
                                 <div className="bg-brand-discord-50 overflow-hidden shadow-sm rounded-lg">
                                     <div className="p-6">
                                         <h3 className="text-lg font-medium text-white mb-2">Discriminator</h3>
                                         <p className="text-white">#{user.discriminator}</p>
                                     </div>
                                 </div>
-    
+
                                 <div className="bg-brand-discord-50 overflow-hidden shadow-sm rounded-lg">
                                     <div className="p-6">
                                         <h3 className="text-lg font-medium text-white mb-2">Coin</h3>
@@ -188,9 +178,9 @@ const Dashboard = () => {
                                         <p className="text-white font-american text-5xl">{dbUser?.box || 0}</p>
                                     </div>
                                 </div>
-                                
+
                             </div>
-    
+
                         </div>
                     </div>
                 </div>
@@ -198,7 +188,7 @@ const Dashboard = () => {
         )
     }
 
-    
+
     return (
         <>
             <Head>
@@ -207,7 +197,7 @@ const Dashboard = () => {
             <EmptyScreen />
         </>
     )
-    
+
 }
 
 export default Dashboard

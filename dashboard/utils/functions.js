@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 const getValidCard = (url, placeholder = "/images/card_placeholder.png") => {
     if (!url || url.includes("cdn.discordapp.com")) return placeholder;
     return url;
@@ -12,22 +14,34 @@ const renderDiscordEmojis = (text) => {
     while ((match = regex.exec(text)) !== null) {
         const [full, animated, name, id] = match;
         if (lastIndex < match.index) {
-            parts.push(text.slice(lastIndex, match.index));
+            parts.push(
+                <span key={`text-${lastIndex}`}>
+                    {text.slice(lastIndex, match.index)}
+                </span>
+            );
         }
         const ext = animated === "a" ? "gif" : "png";
         parts.push(
-            <img
-                key={id + match.index}
+            <Image
+                key={`emoji-${id}`} // Stable key
                 src={`https://cdn.discordapp.com/emojis/${id}.${ext}`}
                 alt={name}
                 width={22}
                 height={22}
                 className="inline object-contain align-middle"
+                unoptimized // Add this for external URLs
+                priority={false} // Not priority loading
             />
         );
         lastIndex = regex.lastIndex;
     }
-    if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+    if (lastIndex < text.length) {
+        parts.push(
+            <span key={`text-${lastIndex}`}>
+                {text.slice(lastIndex)}
+            </span>
+        );
+    }
     return parts;
 };
 
@@ -39,7 +53,6 @@ const trimImageUrl = (url) => {
       const endIndex = url.indexOf(match[0]) + match[0].length;
       return url.substring(0, endIndex);
     }
-    
     return url;
 }
 

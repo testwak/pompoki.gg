@@ -16,8 +16,7 @@ export default function Layout({ children }) {
     const [error, setError] = useState('')
     const router = useRouter()
 
-    const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const API_URL = process.env.API_URL
 
     useEffect(() => {
         const authenticateUser = async () => {
@@ -43,7 +42,8 @@ export default function Layout({ children }) {
                 }
                 
                 // Verify token with backend
-                const response = await axios.get(`${BACKEND_URL}/api/_auth/user?token=${token}`)
+                console.log("Calling API:", `/api/_auth/user?token=${token}`);
+                const response = await axios.get(`/api/_auth/user?token=${token}`)
                 
                 if (response.data.status === 200) {
                     setUser(response.data)
@@ -63,7 +63,7 @@ export default function Layout({ children }) {
         if (router.isReady) {
             authenticateUser()
         }
-    }, [BACKEND_URL, router, router.isReady, router.query])
+    }, [router, router.isReady, router.query])
 
     const handleLogout = async () => {
         try {
@@ -91,7 +91,7 @@ export default function Layout({ children }) {
             className='bg-brand'
         >
             <AppSidebar variant="inset" user={user} onLogout={handleLogout}/>
-            <SidebarInset className='bg-brand-discord !rounded-2xl w-100'>
+            <SidebarInset className='bg-brand-discord rounded-2xl! w-100'>
                 <SiteHeader/>
                 <Toaster />
                 <main>{children}</main>  

@@ -16,7 +16,6 @@ export default function BattlePass() {
     const scrollContainerRef = useRef(null)
     const router = useRouter()
 
-    const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
     const formatRewards = (rewards) => {
@@ -200,7 +199,7 @@ export default function BattlePass() {
                     setLoading(false)
                     return
                 }
-                const response = await axios.get(`${BACKEND_URL}/api/_auth/user?token=${token}`)
+                const response = await axios.get(`/api/_auth/user?token=${token}`)
                 if (response.data.status === 200) {
                     setUser(response.data)
                     const bpResponse = await axios.get(`${API_URL}/api/user/battlepass/${response.data.id}`)
@@ -294,11 +293,11 @@ export default function BattlePass() {
                                 <div className={`text-lg font-semibold ${has_premium ? 'text-yellow-400' : 'text-gray-400'}`}>
                                     {has_premium ? '👑 Premium' : 'Free Tier'}
                                 </div>
-                                {!has_premium && (
+                                {/*!has_premium && (
                                     <button className="mt-2 px-3 py-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-xs hover:from-purple-700 hover:to-pink-700 transition-all">
                                         Upgrade
                                     </button>
-                                )}
+                                )*/}
                             </div>
                         </div>
 
@@ -355,12 +354,12 @@ export default function BattlePass() {
                                     <div
                                         key={level}
                                         data-level={level}
-                                        className={`flex-shrink-0 w-55 h-full transition-all duration-300 ${isCurrentLevel ? 'scale-105' : ''
+                                        className={`shrink-0 w-55 h-full transition-all duration-300 ${isCurrentLevel ? 'scale-105' : ''
                                             }`}
                                     >
                                         <div 
                                             className={`bg-brand-discord-50/50 backdrop-blur-sm border-2 rounded-xl p-4 h-full ${isCurrentLevel
-                                                ? 'border-brand-50 !bg-brand'
+                                                ? 'border-brand-50 bg-brand!'
                                                 : 'border-brand-discord-75 hover:border-brand-discord-100'
                                             } transition-all duration-300`}>
 
@@ -402,7 +401,7 @@ export default function BattlePass() {
                                                         onClick={() => claimReward(levelNum, 'free')}
                                                         disabled={!canClaimFree ? true : false}
                                                         className={`w-full mt-2 px-3 py-1 disabled:bg-brand-discord-100/50 disabled:opacity-50 rounded-lg text-xs transition-colors
-                                                            ${canClaimFree ? "bg-green-600 hover:bg-green-600/70" : (isCurrentLevel ? "disabled:!bg-brand-50" : "bg-brand-discord-50")}`}
+                                                            ${canClaimFree ? "bg-green-600 hover:bg-green-600/70" : (isCurrentLevel ? "disabled:bg-brand-50!" : "bg-brand-discord-50")}`}
                                                     >
                                                         
                                                         {isFreeClaimed && !canClaimFree && !isCurrentLevel ? "Claimed" : "Claim"}
@@ -434,7 +433,7 @@ export default function BattlePass() {
                                                     onClick={() => claimReward(levelNum, 'premium')}
                                                     disabled={has_premium && isPremiumClaimed ? true : (canClaimPremium ? false : true)}
                                                     className={`w-full mt-2 px-3 py-1 disabled:opacity-50 rounded-lg text-xs transition-all
-                                                        ${canClaimPremium ? "bg-green-600 hover:bg-green-600/70" : (isCurrentLevel ? "disabled:!bg-brand-50" : "bg-brand-discord-50")}`}
+                                                        ${canClaimPremium ? "bg-green-600 hover:bg-green-600/70" : (isCurrentLevel ? "disabled:bg-brand-50!" : "bg-brand-discord-50")}`}
                                                 >
                                                     
                                                     {has_premium && isPremiumClaimed && !isCurrentLevel ? "Claimed" : "Claim"}

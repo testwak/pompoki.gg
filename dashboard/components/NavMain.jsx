@@ -19,7 +19,7 @@ export function NavMain({ items }) {
             <SidebarGroupContent className="flex flex-col gap-2">
                 <SidebarMenu>
                     <SidebarMenuItem className="flex items-center gap-2">
-                        <SidebarMenuButton
+                        {/*<SidebarMenuButton
                             tooltip="Quick Create"
                             className="bg-brand-discord-50 hover:bg-brand-discord/90 hover:text-white active:bg-brand-discord/50 active:text-white min-w-8 duration-200 ease-linear"
                         >
@@ -33,7 +33,7 @@ export function NavMain({ items }) {
                         >
                             <IconAlertSquareRounded />
                             <span className="sr-only">How it works?</span>
-                        </Button>
+                        </Button>*/}
                     </SidebarMenuItem>
                 </SidebarMenu>
                 <SidebarMenu>
