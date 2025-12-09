@@ -198,7 +198,7 @@ export default function CardCollection() {
             <br />
             <TypographyH1 text={"Card Collection"} />
             <Divider className="my-3 bg-brand-discord-50" />
-            <div className="mx-3 mb-4 flex gap-3 flex-wrap">
+            <div className="mx-3 mb-4 flex gap-3 flex-wrap ">
                 <Input
                     placeholder="Search cards..."
                     value={searchTerm}
@@ -223,8 +223,8 @@ export default function CardCollection() {
                 onChange={setActivePage}
                 total={Math.ceil((filteredData?.length || 0) / ITEMS_PER_PAGE)}
             />
-
-            <div className="m-3 gap-3 grid grid-cols-2 md:grid-cols-3! lg:grid-cols-4! xl:grid-cols-5! 2xl:grid-cols-6! mobile-only:grid-cols-2 tablet-only:grid-cols-3">
+            
+            <div className="min-h-min m-3 gap-3 grid grid-cols-2 md:grid-cols-3! lg:grid-cols-4! xl:grid-cols-5! 2xl:grid-cols-6! mobile-only:grid-cols-2 tablet-only:grid-cols-3">
                 <AnimatePresence mode="wait">
                     {currentItems.map((card, index) => (
                         <motion.div

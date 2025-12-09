@@ -271,7 +271,7 @@ export default function BattlePass() {
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
 
-            <div className="min-h-screen text-white ">
+            <div className="min-h-min mb-2 text-white">
 
                 {/* Header */}
                 <div className="text-center py-8 px-4">
@@ -465,11 +465,6 @@ export default function BattlePass() {
                     →
                 </button>
 
-                {/* Footer */}
-                <div className="text-center py-8 text-gray-400 text-sm">
-                    <p>Season Progress • {Object.keys(rewards_config).length} Levels Total</p>
-                    <p className="mt-1">Level {actualLevel} of {Math.max(...Object.keys(rewards_config).map(Number))}</p>
-                </div>
             </div>
         </>
     )
