@@ -97,7 +97,7 @@ export default function CardCollection() {
             try {
                 console.log('Fetching user with ID:', discordId)
                 const response = await axios.get(`${API_URL}/api/user/card_collection/${discordId}`)
-                console.log('Response:', response.data)
+                // console.log('Response:', response.data)
                 if (response.data.status === 200) {
                     console.log('Setting dbUser:', response.data.data)
                     setDbUser(response.data.data)
