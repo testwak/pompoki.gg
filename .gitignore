@@ -12,10 +12,6 @@ bot/.env
 bot/.env.*
 bot/settings
 
-# others
-dashboard/pages/api
-dashboard/pages/_auth
-
 # Build output
 .next/
 dist/
