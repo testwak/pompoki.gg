@@ -18,6 +18,8 @@ export default function BattlePass() {
 
     const API_URL = process.env.NEXT_PUBLIC_API_URL
 
+    console.log("API: ", API_URL);
+
     const formatRewards = (rewards) => {
         if (!rewards) return "No rewards"
         const parts = []
